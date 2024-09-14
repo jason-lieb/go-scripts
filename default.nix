@@ -9,11 +9,24 @@
     }
   ),
   buildGoApplication ? pkgs.buildGoApplication,
+  script,
 }:
 
-buildGoApplication {
-  pname = "hello";
-  version = "0.1";
-  src = ./scripts/hello;
-  modules = ./scripts/hello/gomod2nix.toml;
-}
+let
+  scripts = {
+    hello = buildGoApplication {
+      pname = "hello";
+      version = "0.1";
+      src = ./scripts/hello;
+      modules = ./scripts/hello/gomod2nix.toml;
+    };
+
+    make-imports-absolute = buildGoApplication {
+      pname = "make-imports-absolute";
+      version = "0.1";
+      src = ./scripts/make-imports-absolute;
+      modules = ./scripts/make-imports-absolute/gomod2nix.toml;
+    };
+  };
+in
+scripts.${script}

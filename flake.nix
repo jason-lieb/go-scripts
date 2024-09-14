@@ -1,5 +1,5 @@
 {
-  description = "A basic gomod2nix flake";
+  description = "Go Scripts";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -19,10 +19,27 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         callPackage = pkgs.callPackage;
+        buildPackage =
+          script:
+          callPackage ./. {
+            inherit (gomod2nix.legacyPackages.${system}) buildGoApplication;
+            inherit script;
+          };
+        packages = {
+          hello = buildPackage "hello";
+          make-imports-absolute = buildPackage "make-imports-absolute";
+        };
+        packageOutputs = builtins.attrValues packages;
       in
       {
-        packages.default = callPackage ./. {
-          inherit (gomod2nix.legacyPackages.${system}) buildGoApplication;
+        packages = packages // {
+          default = pkgs.runCommand "default" { buildInputs = packageOutputs; } ''
+            mkdir -p $out/bin
+            for pkg in ${builtins.concatStringsSep " " (map (pkg: "${pkg}/bin/*") packageOutputs)}; do
+              cp $pkg $out/bin
+            done
+          '';
+
         };
         devShells.default = callPackage ./shell.nix {
           inherit (gomod2nix.legacyPackages.${system}) mkGoEnv gomod2nix;
