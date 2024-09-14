@@ -14,7 +14,6 @@
 buildGoApplication {
   pname = "hello";
   version = "0.1";
-  pwd = ./.;
-  src = ./.;
-  modules = ./gomod2nix.toml;
+  src = ./scripts/hello;
+  modules = ./scripts/hello/gomod2nix.toml;
 }
