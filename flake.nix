@@ -25,10 +25,12 @@
             inherit (gomod2nix.legacyPackages.${system}) buildGoApplication;
             inherit script;
           };
+
         packages = {
           hello = buildPackage "hello";
           make-imports-absolute = buildPackage "make-imports-absolute";
         };
+
         packageOutputs = builtins.attrValues packages;
       in
       {
