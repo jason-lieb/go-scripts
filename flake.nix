@@ -21,7 +21,7 @@
         callPackage = pkgs.callPackage;
         buildPackage =
           script:
-          callPackage ./. {
+          callPackage ./build.nix {
             inherit (gomod2nix.legacyPackages.${system}) buildGoApplication;
             inherit script;
           };
