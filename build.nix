@@ -17,6 +17,7 @@ let
     hello = buildGoApplication {
       pname = "hello";
       version = "0.1";
+      go = pkgs.go_1_23;
       src = ./scripts/hello;
       modules = ./scripts/hello/gomod2nix.toml;
     };
@@ -24,6 +25,7 @@ let
     make-imports-absolute = buildGoApplication {
       pname = "make-imports-absolute";
       version = "0.1";
+      go = pkgs.go_1_23;
       src = ./scripts/make-imports-absolute;
       modules = ./scripts/make-imports-absolute/gomod2nix.toml;
     };
