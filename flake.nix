@@ -41,8 +41,8 @@
               cp $pkg $out/bin
             done
           '';
-
         };
+
         devShells.default = callPackage ./shell.nix {
           inherit (gomod2nix.legacyPackages.${system}) mkGoEnv gomod2nix;
         };
