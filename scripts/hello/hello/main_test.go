@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestMyFunction(t *testing.T) {
+func TestHelloWorld(t *testing.T) {
 	expected := "Hello, World!"
 	result := HelloWorld()
 
